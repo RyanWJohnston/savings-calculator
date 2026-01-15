@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Annual Savings Calculator - 2026</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e0e0e0;
+      padding: 30px 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #0f3460;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    h2 {
+      color: #00d4ff;
+      margin-bottom: 25px;
+      font-size: 28px;
+      text-shadow: 0 2px 10px rgba(0, 212, 255, 0.3);
+    }
+
+    .salary-section {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      border-left: 4px solid #00d4ff;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .salary-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    label {
+      display: inline-block;
+      margin-right: 20px;
+      margin-bottom: 10px;
+      font-size: 15px;
+      color: #b0b0b0;
+    }
+
+    input[type="number"], select {
+      width: 120px;
+      padding: 8px 12px;
+      background: #1a2f4a;
+      border: 2px solid #00d4ff;
+      color: #00d4ff;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    input[type="number"]:focus, select:focus {
+      outline: none;
+      border-color: #00ff88;
+      box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+      background: #1f3a52;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 25px;
+      overflow-x: auto;
+    }
+
+    th {
+      background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+      color: #00d4ff;
+      padding: 15px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 3px solid #00d4ff;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    td {
+      padding: 15px;
+      border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+      vertical-align: middle;
+      text-align: left;
+    }
+
+    tr:hover {
+      background: rgba(0, 212, 255, 0.05);
+    }
+
+    .result {
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 255, 136, 0.1) 100%);
+      border-left: 5px solid #00d4ff;
+      padding: 20px;
+      margin-top: 30px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      color: #e0e0e0;
+      line-height: 1.8;
+    }
+
+    .result strong {
+      color: #00ff88;
+      font-size: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #00d4ff 0%, #00ff88 100%);
+      color: #0f3460;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .limit {
+      font-size: 12px;
+      color: #00ff88;
+      font-weight: 500;
+    }
+
+    .category-name {
+      color: #00d4ff;
+      font-weight: 500;
+    }
+
+    .warning {
+      color: #ff6b6b;
+    }
+
+    .max-column {
+      background: rgba(0, 255, 136, 0.08);
+      border-left: 2px solid #00ff88;
+    }
+
+    .max-column th {
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(0, 212, 255, 0.2) 100%);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>💰 Annual Savings Calculator (2026)</h2>
+
+  <div class="salary-section">
+    <div class="salary-item">
+      <label>Your Salary:</label>
+      $<input type="number" id="you_salary">
+    </div>
+    <div class="salary-item">
+      <label>Spouse's Salary:</label>
+      $<input type="number" id="spouse_salary">
+    </div>
+  </div>
+
+<form id="savingsForm">
+  <table id="savingsTable">
+    <tr>
+      <th>Category</th>
+      <th>Your Input</th>
+      <th>Type</th>
+      <th class="max-column"><button type="button" onclick="setMaxAll('you')">Max All</button></th>
+      <th>Spouse's Input</th>
+      <th>Type</th>
+      <th class="max-column"><button type="button" onclick="setMaxAll('spouse')">Max All</button></th>
+      <th>Limit</th>
+    </tr>
+  </table>
+  <div style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
+    <button type="button" onclick="calculateSavings()">Calculate Total Savings</button>
+    <button type="button" onclick="clearAllFields()">Clear All</button>
+  </div>
+</form>
+
+<div class="result" id="result"></div>
+</div>
+
+<script>
+  const limits = {
+    "401k": 24500,
+    "employer_match": 48500,
+    "mega_backdoor_roth": 48500,
+    "ira": 7500,
+    "hsa": 4300,
+    "after_tax_savings": null,
+    "bonuses": null,
+    "home_principal_payoff": null
+  };
+
+  const categories = Object.keys(limits);
+  const table = document.getElementById("savingsTable");
+
+  categories.forEach(cat => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td class="category-name">${cat.replace(/_/g, ' ').toUpperCase()}</td>
+      <td><input type="number" id="you_${cat}"></td>
+      <td>
+        <select id="you_type_${cat}">
+          <option value="amount">$</option>
+          <option value="percent">%</option>
+        </select>
+      </td>
+      <td class="max-column">${limits[cat] ? `<button type="button" onclick="setMaxField('you', '${cat}')">Max</button>` : ''}</td>
+      <td><input type="number" id="spouse_${cat}"></td>
+      <td>
+        <select id="spouse_type_${cat}">
+          <option value="amount">$</option>
+          <option value="percent">%</option>
+        </select>
+      </td>
+      <td class="max-column">${limits[cat] ? `<button type="button" onclick="setMaxField('spouse', '${cat}')">Max</button>` : ''}</td>
+      <td class="limit">${limits[cat] ? '$' + limits[cat].toLocaleString() : '—'}</td>
+    `;
+    table.appendChild(row);
+  });
+
+  function computeAmount(value, type, salary) {
+    return type === 'percent' ? salary * value / 100 : value;
+  }
+
+  function compute401kSplit(person) {
+    const salary = parseFloat(document.getElementById(`${person}_salary`).value) || 0;
+    const contribRate = parseFloat(document.getElementById(`${person}_401k`).value) || 0;
+    const contribType = document.getElementById(`${person}_type_401k`).value;
+    const matchRate = parseFloat(document.getElementById(`${person}_employer_match`).value) || 0;
+    const matchType = document.getElementById(`${person}_type_employer_match`).value;
+    const userMegaValue = parseFloat(document.getElementById(`${person}_mega_backdoor_roth`).value) || 0;
+
+    const totalContrib = computeAmount(contribRate, contribType, salary);
+    const match = computeAmount(matchRate, matchType, salary);
+
+    const regular401k = Math.min(totalContrib, limits["401k"]);
+    const excess = Math.max(0, totalContrib - limits["401k"]);
+    const maxMega = Math.max(0, 73500 - (regular401k + match));
+    const calculatedMega = Math.min(excess, maxMega);
+    
+    // If user has manually entered a value, use that; otherwise auto-populate from excess 401k
+    let mega;
+    if (userMegaValue > 0) {
+      mega = Math.min(userMegaValue, maxMega);
+    } else if (excess > 0) {
+      mega = calculatedMega;
+      // Auto-populate the field if there's excess 401k
+      document.getElementById(`${person}_mega_backdoor_roth`).value = mega.toFixed(2);
+      document.getElementById(`${person}_type_mega_backdoor_roth`).value = 'amount';
+    } else {
+      mega = 0;
+    }
+
+    return { regular401k, match, mega };
+  }
+
+  function calculateSavings() {
+    const youSalary = parseFloat(document.getElementById('you_salary').value) || 0;
+    const spouseSalary = parseFloat(document.getElementById('spouse_salary').value) || 0;
+
+    let youTotal = 0, spouseTotal = 0;
+    let warnings = [];
+
+    for (let person of ['you', 'spouse']) {
+      const salary = person === 'you' ? youSalary : spouseSalary;
+      const split = compute401kSplit(person);
+
+      let total = split.regular401k + split.match + split.mega;
+
+      for (let cat of categories) {
+        if (cat === '401k' || cat === 'employer_match' || cat === 'mega_backdoor_roth') continue;
+        const val = parseFloat(document.getElementById(`${person}_${cat}`).value) || 0;
+        const type = document.getElementById(`${person}_type_${cat}`).value;
+        const amount = computeAmount(val, type, salary);
+        total += amount;
+
+        if (limits[cat] && amount > limits[cat]) {
+          warnings.push(`${person}'s ${cat.replace(/_/g, ' ')} exceeds \$${limits[cat]}`);
+        }
+      }
+
+      if (person === 'you') youTotal = total;
+      else spouseTotal = total;
+    }
+
+    const combinedTotal = youTotal + spouseTotal;
+    document.getElementById('result').innerHTML =
+      `Your total savings: \$${youTotal.toLocaleString()}<br>` +
+      `Spouse's total savings: \$${spouseTotal.toLocaleString()}<br>` +
+      `Combined total savings: <strong>\$${combinedTotal.toLocaleString()}</strong><br><br>` +
+      (warnings.length ? `<span style="color:red;">Warnings:<br>${warnings.join('<br>')}</span>` : '');
+  }
+
+  function setMaxField(person, category) {
+    if (limits[category]) {
+      document.getElementById(`${person}_${category}`).value = limits[category];
+      document.getElementById(`${person}_type_${category}`).value = 'amount';
+    }
+  }
+
+  function setMaxAll(person) {
+    for (let cat of categories) {
+      if (limits[cat]) {
+        document.getElementById(`${person}_${cat}`).value = limits[cat];
+        document.getElementById(`${person}_type_${cat}`).value = 'amount';
+      }
+    }
+  }
+
+  function clearAllFields() {
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+      input.value = '';
+    });
+    document.querySelectorAll('select').forEach(select => {
+      select.value = 'amount';
+    });
+    document.getElementById('result').innerHTML = '';
+  }
+</script>
+
+</body>
+</html>
